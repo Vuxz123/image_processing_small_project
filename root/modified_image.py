@@ -90,8 +90,8 @@ def random_change_color(image):
 def gen_image(part):
     i = cv2.imread(part)
     a = np.random.randint(5)
-    d_i = None
-    for x in range(a):
+    d_i = i
+    for x in range(-1, a, 1):
         d_i = random_change_color(i)
         i = d_i
     return d_i
