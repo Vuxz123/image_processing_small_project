@@ -35,7 +35,7 @@ def get_part(mask):
     size = 0
     array = []
     for c in contours:
-        if cv2.contourArea(c) < 20:
+        if cv2.contourArea(c) < 100:
             continue
         array.append(c)
         size += 1

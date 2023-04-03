@@ -1,3 +1,5 @@
+import string
+
 import cv2 as cv
 import numpy as np
 import modified_image as mi
@@ -29,23 +31,33 @@ def mouse_callback(event, x, y, flags, params):
         print("adudu")
 
 
+array_c = []
+contours_size = 0
+for c in contours:
+    contours_size += 1
+    if cv.contourArea(c) < 100:
+        continue
+    array_c.append(c)
+print(contours_size)
 click_list = []
 cv.namedWindow("cba")
 cv.setMouseCallback("cba", mouse_callback)
 temp = 100
 while len(click_list) < temp:
     length = 0
-    for idex, c in enumerate(contours):
+    for idex, c in enumerate(array_c):
         length += 1
         x, y, w, h = cv.boundingRect(c)
         if idex not in click_list and x <= pos[0] <= x + w and y <= pos[1] <= y + h:
-            cv.drawContours(i, contours, idex, 150, 3)
-            cv.drawContours(dif_i, contours, idex, 150, 3)
+            cv.drawContours(i, array_c, idex, 150, 3)
+            cv.drawContours(dif_i, array_c, idex, 150, 3)
             click_list.append(idex)
 
     temp = length
     combined_image[0:800, 0:600] = i
     combined_image[0:800, 600:1200] = dif_i
+    text = str(temp) + " " + str(len(click_list))
+    cv.putText(combined_image, text, (20, 20), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0))
     cv.imshow("cba", combined_image)
     key = cv.waitKey(1) & 0xFF
 
