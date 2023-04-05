@@ -6,15 +6,12 @@ import modified_image as mi
 
 i = cv.imread("adu.png")
 i = cv.resize(i, (600, 800))
-cv.imshow("ori", i)
 dif_i = mi.gen_image("adu.png")
 dif_i = cv.resize(dif_i, (600, 800))
-cv.imshow("dif", dif_i)
 dif_space = cv.absdiff(i, dif_i)
 dif_space = cv.resize(dif_space, (600, 800))
 dif_space = cv.cvtColor(dif_space, cv.COLOR_BGR2GRAY)
 _, dif_space = cv.threshold(dif_space, 20, 255, cv.THRESH_BINARY)
-cv.imshow("test", dif_space)
 
 contours, hierachy = cv.findContours(dif_space, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
 
@@ -57,7 +54,7 @@ while len(click_list) < temp:
     combined_image[0:800, 0:600] = i
     combined_image[0:800, 600:1200] = dif_i
     text = str(temp) + " " + str(len(click_list))
-    cv.putText(combined_image, text, (20, 20), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0))
+    cv.putText(combined_image, text, (20, 40), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), thickness=3)
     cv.imshow("cba", combined_image)
     key = cv.waitKey(1) & 0xFF
 
